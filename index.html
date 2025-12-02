@@ -1,1 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Employee Management System — Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1>Employee Management System</h1>
+      <div class="header-actions">
+        <button id="btnAddEmployee" class="btn primary">+ Add Employee</button>
+      </div>
+    </header>
 
+    <section class="controls">
+      <div class="search-filter">
+        <input id="searchInput" type="search" placeholder="Search by name, email, phone..." />
+        <select id="filterDept">
+          <option value="">All Departments</option>
+        </select>
+        <select id="pageSizeSelect">
+          <option value="5">5 / page</option>
+          <option value="10" selected>10 / page</option>
+          <option value="20">20 / page</option>
+        </select>
+      </div>
+      <div class="controls-right">
+        <button id="btnExport" class="btn">Export JSON</button>
+        <button id="btnImport" class="btn">Import JSON</button>
+        <input id="importFile" type="file" accept="application/json" style="display:none" />
+      </div>
+    </section>
+
+    <main class="main">
+      <div id="tableWrapper" class="table-wrapper">
+        <table id="employeeTable" class="responsive-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Department</th>
+              <th>Position</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="employeeTbody">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+        <div id="noData" class="no-data">No employees found. Add a new employee.</div>
+      </div>
+
+      <div class="pagination-area">
+        <div id="pagination" class="pagination"></div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <small>Local demo — data saved in <code>localStorage</code>. Built with HTML/CSS/JS.</small>
+    </footer>
+  </div>
+
+  <!-- Add / Edit Modal -->
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <h2 id="modalTitle">Add Employee</h2>
+        <button id="modalClose" class="btn icon">✕</button>
+      </header>
+      <form id="employeeForm" class="form">
+        <input type="hidden" id="employeeId" />
+        <div class="form-grid">
+          <label>
+            Full Name
+            <input id="fullName" name="fullName" type="text" required />
+          </label>
+          <label>
+            Email
+            <input id="email" name="email" type="email" required />
+          </label>
+          <label>
+            Phone
+            <input id="phone" name="phone" type="tel" />
+          </label>
+          <label>
+            Department
+            <select id="department" name="department" required>
+              <option value="">Select department</option>
+              <option>Engineering</option>
+              <option>Design</option>
+              <option>Marketing</option>
+              <option>Sales</option>
+              <option>HR</option>
+              <option>Support</option>
+            </select>
+          </label>
+          <label>
+            Position
+            <input id="position" name="position" type="text" />
+          </label>
+          <label class="full">
+            Notes
+            <textarea id="notes" name="notes" rows="3"></textarea>
+          </label>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn primary">Save</button>
+          <button type="button" id="formCancel" class="btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <template id="rowTemplate">
+    <tr>
+      <td class="td-name"></td>
+      <td class="td-email"></td>
+      <td class="td-phone"></td>
+      <td class="td-dept"></td>
+      <td class="td-pos"></td>
+      <td class="td-actions">
+        <button class="btn icon edit">✎</button>
+        <button class="btn icon delete">🗑</button>
+      </td>
+    </tr>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
